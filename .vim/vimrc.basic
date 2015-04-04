@@ -1,0 +1,20 @@
+"basic editor setup
+set nocompatible
+syntax on
+set exrc
+set secure
+set expandtab
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set backspace=indent,eol,start
+set wildmode=longest,list,full
+set wildmenu
+set list
+filetype plugin indent on
+set number
+
+"vertical column
+"set colorcolumn=110
+"highlight ColorColumn ctermbg=gray
+

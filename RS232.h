@@ -9,7 +9,5 @@ void usart_puts(char *s);
 char usart_getc(void);
 int usart_gets(char *s, int max_len);
 void initRS(void);
-//void enaRSInt(void);
-//void disRSInt(void);
 
 #endif

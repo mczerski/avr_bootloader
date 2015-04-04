@@ -1,7 +1,12 @@
-# Eclipse folders
+# Eclipse/cmake files and folders
 Debug
 Release
 .settings
+*.cmake
+CMakeCache.txt
+CMakeFiles
+Makefile
+.vim/session.c
 
 # Object files
 *.o
