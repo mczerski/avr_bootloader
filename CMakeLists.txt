@@ -32,8 +32,7 @@ project (avr_bootloader C CXX ASM)
 set(BASE_PATH    "${${PROJECT_NAME}_SOURCE_DIR}")
 set(INC_PATH     "${BASE_PATH}/src")
 set(SRC_PATH     "${BASE_PATH}/src")
-#set(LIB_DIR_PATH "${BASE_PATH}/lib")
-set(LIB_DIR_PATH "${BASE_PATH}")
+set(LIB_DIR_PATH "${BASE_PATH}/lib")
 
 # Files to be compiled
 file(GLOB SRC_FILES "${SRC_PATH}/*.cpp"

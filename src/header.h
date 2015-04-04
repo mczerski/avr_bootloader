@@ -4,16 +4,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <avr/io.h>
-#include <util/delay.h>	
 #include <avr/interrupt.h>
 #include <inttypes.h>
 #include <math.h>
 #include "LED.h"
-#include "RS232.h"
+#include "USART.h"
 #include "switch.h"
 #include "SPI.h"
+#include "hex_parser.h"
+#include "app.h"
 
-#endif
-
-
+#endif //HEADER_H
 

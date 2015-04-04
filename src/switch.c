@@ -1,28 +1,30 @@
-#include "header.h"
+#include <util/delay.h>	
+#include <avr/io.h>
+#include "switch.h"
 
-void initSwitch(void){
-	PORTC |= 0x1C;
-	DDRC &= 0xE3;
+void switch_init(void){
+    PORTC |= 0x20;
+    DDRC &= ~0x20;
 }
 
-unsigned char getSwitchState(void){
-	return (~((PINC & 0x1C) >> 2) & 0x07);
+unsigned switch_get_state(void){
+    return (~((PINC & 0x20) >> 5) & 0x01);
 }
 
-unsigned char switch_getc(void){
-	unsigned char c;
-	
-	c = getSwitchState();
-	
-	_delay_us(100);
-	
-	do{
-		if (c != getSwitchState()){
-			_delay_us(100);
-			if (c != getSwitchState())
-				return getSwitchState();
-		}
-	}while(1);
-	
-	return 0;
+unsigned switch_getc(void){
+    unsigned c;
+    
+    c = switch_get_state();
+    
+    _delay_us(100);
+    
+    do{
+        if (c != switch_get_state()){
+            _delay_us(100);
+            if (c != switch_get_state())
+                return switch_get_state();
+        }
+    }while(1);
+    
+    return 0;
 }

@@ -1,7 +1,7 @@
-#include "header.h"
+#include <avr/io.h>
+#include "LED.h"
 
-void initLED(void){
-
-	PORTB |= 0x0F;
-	DDRB |= 0x0F;
+void LED_init(void){
+    PORTB |= 0x20;
+    DDRB |= 0x20;
 }
