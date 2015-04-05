@@ -3,12 +3,13 @@
 #include "switch.h"
 
 void switch_init(void){
-    PORTC |= 0x20;
-    DDRC &= ~0x20;
+    MCUCR &= ~_BV(PUD);
+    DDRD &= ~_BV(PD6);
+    PORTD = _BV(PD6);
 }
 
 unsigned switch_get_state(void){
-    return (~((PINC & 0x20) >> 5) & 0x01);
+    return ~((PIND & _BV(PD6)) >> 6) & 0x1;
 }
 
 unsigned switch_getc(void){

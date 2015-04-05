@@ -146,9 +146,7 @@ void hex_parser_write_file(void)
                 break; // Ignore it, since we have no influence on execution start address.
 
             case 0x04 : // Extendenot a word address.d linear address record ?
-                base_addr = (record.data[0] << 8) | record.data[1];
-                base_addr <<= 16;
-                break;
+                break; // Ignore it, since we don't support such large memory
 
             case 0x05 : // Start linear address record ?
                 break; // Ignore it, since we have no influence on exectuion start address.
