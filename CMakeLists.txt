@@ -1,13 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
+INCLUDE(consts.cmake)
 
-set(PROG_TYPE usbasp)
-# extra arguments to avrdude: baud rate, chip type, -F flag, etc.
-set(PROG_ARGS)
-
-# Variables regarding the AVR chip
-set(MCU   atmega328p)
-set(F_CPU 16000000)
-set(BAUD  9600)
 add_definitions(-DF_CPU=${F_CPU})
 
 # program names
@@ -26,7 +19,7 @@ set(CMAKE_CXX_COMPILER ${AVRCPP})
 set(CMAKE_C_COMPILER   ${AVRC})
 set(CMAKE_ASM_COMPILER   ${AVRC})
 
-project (avr_bootloader C CXX ASM)
+project (${PROJECT_NAME} C CXX ASM)
 
 # Important project paths
 set(BASE_PATH    "${${PROJECT_NAME}_SOURCE_DIR}")
@@ -73,10 +66,11 @@ set(CDEFS     "-DF_CPU=${F_CPU} -DBAUD=${BAUD}")
 
 # Linker flags
 set(LDMAP     "-Wl,-Map,${PROJECT_NAME}.map")
+set(LDTEXT    "-Wl,-Ttext=${TEXT}")
 
 set(CFLAGS   "${CMCU} ${CDEBUG} ${CDEFS} ${COPT} ${CWARN} ${CSTANDARD} ${CTUNING}")
 set(CXXFLAGS "${CMCU} ${CDEBUG} ${CDEFS} ${COPT} ${CTUNING}")
-set(LDFLAGS  "${LDMAP}")
+set(LDFLAGS  "${LDMAP} ${LDTEXT}")
 
 set(CMAKE_C_FLAGS   "${CFLAGS}")
 set(CMAKE_CXX_FLAGS "${CXXFLAGS}")
