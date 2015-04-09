@@ -1,8 +1,8 @@
 #ifndef USART_H
 #define USART_H
 
-//extern const char XOFF;
-//extern const char XON;
+extern const char XOFF;
+extern const char XON;
 
 void USART_putc(char c);
 void USART_puts(char *s);

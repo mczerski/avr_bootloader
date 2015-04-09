@@ -1,6 +1,14 @@
 #include <util/delay.h>
 #include "header.h"
 
+void blink() {
+    while (1) {
+        USART_puts("BOOT>");
+        LED_REV_D0;
+        _delay_ms(200);
+    }
+}
+
 int main(void) {
 
     LED_init();

@@ -1,8 +1,8 @@
 #include <avr/io.h>
 #include "USART.h"
 
-//const char XOFF = 19;
-//const char XON = 17;
+const char XOFF = 19;
+const char XON = 17;
 #define UART_BAUD_CALC(UART_BAUD_RATE,F_OSC) ((F_OSC)/((UART_BAUD_RATE)*8l)-1)
 
 void USART_putc(char c) {

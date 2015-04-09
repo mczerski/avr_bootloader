@@ -104,13 +104,12 @@ void hex_parser_write_file(void)
     size_t base_addr = 0;
     size_t data_pos;
     uint16_t word;
-    size_t size = 1024*16;
     size_t page_addr = 0;
     int hex_size;
 
-//    USART_putc(XON);
+    USART_putc(XON);
     hex_size = USART_gets(hex_line, sizeof(hex_line));
-//    USART_putc(XOFF);
+    USART_putc(XOFF);
 
     while( 1 )
     {
@@ -120,8 +119,6 @@ void hex_parser_write_file(void)
         switch( record.type )
         {
             case 0x00 : // Data record
-                if(base_addr + record.offset + record.length > size)
-                    error = 1;
 
                 for(data_pos = 0; data_pos < record.length; data_pos+=2) {
                     size_t byte_addr = (base_addr + record.offset + data_pos) & (SPM_PAGESIZE-1);
@@ -169,8 +166,8 @@ void hex_parser_write_file(void)
             USART_putc('-');
         else
             USART_putc('+');
-//        USART_putc(XON);
+        USART_putc(XON);
         USART_gets(hex_line, sizeof(hex_line));
-//        USART_putc(XOFF);
+        USART_putc(XOFF);
     }
 }
