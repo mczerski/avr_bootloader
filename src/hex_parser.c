@@ -1,8 +1,9 @@
+#include "USART.h"
+
 #include <stdint.h>
 #include <stddef.h>
 #include <avr/pgmspace.h>
 #include <avr/boot.h>
-#include "USART.h"
 
 struct hex_record
 {
@@ -93,6 +94,13 @@ static int parse_record(const char * hex_line, size_t size, struct hex_record * 
     return 0;
 }
 
+static void write_page(size_t page_addr) {
+    boot_page_erase(page_addr);
+    boot_spm_busy_wait();
+    boot_page_write(page_addr);
+    boot_spm_busy_wait();
+}
+
 static char hex_line[100];
 static uint8_t hex_data[sizeof(hex_line)/2];
 static struct hex_record record;
@@ -125,10 +133,8 @@ void hex_parser_write_file(void)
                     word = record.data[data_pos] | (record.data[data_pos+1] << 8);
                     boot_page_fill(byte_addr, word);
                     if (byte_addr == SPM_PAGESIZE-2) {
-                        USART_putc('*');
                         page_addr = (base_addr + record.offset + data_pos) & 0xFFFFFF80;
-                        boot_page_write(page_addr);
-                        boot_spm_busy_wait();
+                        write_page(page_addr);
                     }
                 }
 
@@ -149,9 +155,9 @@ void hex_parser_write_file(void)
                 break; // Ignore it, since we have no influence on exectuion start address.
 
             case 0x01 : // End of file record ?
-                boot_page_write(page_addr + SPM_PAGESIZE);
-                boot_spm_busy_wait();
+                write_page(page_addr + SPM_PAGESIZE);
                 boot_rww_enable();
+                USART_putc('.');
                 if (error)
                     USART_puts("KO");
                 else
@@ -162,10 +168,11 @@ void hex_parser_write_file(void)
                 error = 1;
         }
 
-        if (error)
-            USART_putc('-');
-        else
-            USART_putc('+');
+        USART_putc('.');
+        if (error) {
+            USART_puts("KO");
+            return;
+        }
         USART_putc(XON);
         USART_gets(hex_line, sizeof(hex_line));
         USART_putc(XOFF);

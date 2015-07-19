@@ -1,6 +1,7 @@
-#include <util/delay.h>	
-#include <avr/io.h>
 #include "switch.h"
+
+#include <util/delay.h>
+#include <avr/io.h>
 
 void switch_init(void) {
     MCUCR &= ~_BV(PUD);

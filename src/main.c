@@ -1,19 +1,27 @@
-#include <util/delay.h>
-#include "header.h"
+#include "LED.h"
+#include "USART.h"
+#include "switch.h"
+#include "SPI.h"
+#include "ADC.h"
+#include "hex_parser.h"
+#include "app.h"
 
-void blink() {
-    while (1) {
-        USART_puts("BOOT>");
-        LED_REV_D0;
-        _delay_ms(200);
-    }
-}
+#include <util/delay.h>
 
 int main(void) {
-
     LED_init();
     USART_init();
     switch_init();
+    ADC_init();
+    _delay_ms(100);
+    LED_SET_D0;
+    _delay_ms(100);
+    LED_CLR_D0;
+    _delay_ms(100);
+    LED_SET_D0;
+    _delay_ms(100);
+    LED_CLR_D0;
+    _delay_ms(100);
     unsigned c = switch_get_state();
     if (c) {
         LED_SET_D0;

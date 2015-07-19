@@ -94,7 +94,7 @@
 								<option id="de.innot.avreclipse.compiler.option.optimize.536268403" name="Optimization Level" superClass="de.innot.avreclipse.compiler.option.optimize" value="de.innot.avreclipse.compiler.optimize.size" valueType="enumerated"/>
 								<option id="de.innot.avreclipse.compiler.option.otherflags.1563522844" name="Other flags" superClass="de.innot.avreclipse.compiler.option.otherflags" value="-mno-interrupts " valueType="string"/>
 								<option id="de.innot.avreclipse.compiler.option.def.1693924574" name="Define Syms (-D)" superClass="de.innot.avreclipse.compiler.option.def" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="BAUD=9600"/>
+									<listOptionValue builtIn="false" value="BAUD=105200"/>
 								</option>
 								<inputType id="de.innot.avreclipse.compiler.winavr.input.1557125071" name="C Source Files" superClass="de.innot.avreclipse.compiler.winavr.input"/>
 							</tool>

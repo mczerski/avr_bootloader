@@ -1,5 +1,6 @@
-#include <avr/io.h>
 #include "USART.h"
+
+#include <avr/io.h>
 
 const char XOFF = 19;
 const char XON = 17;
