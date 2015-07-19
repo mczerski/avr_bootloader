@@ -10,7 +10,7 @@ void ADC_init()
     ADMUX = admux;
 }
 
-uint16_t getADCValue(int channel) {
+uint16_t ADC_getValue(int channel) {
     uint16_t value;
 
     uint8_t admux = ADMUX & 0xE0;
@@ -28,4 +28,9 @@ uint16_t getADCValue(int channel) {
     value += ADCH << 8;
 
     return value;
+}
+
+int ADC_convert2mV(uint16_t v) {
+    int voltage_mV = v * 1.1 * 1000 * 10 / 1024; //includes 1/10 divider
+    return voltage_mV;
 }

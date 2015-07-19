@@ -1,7 +1,6 @@
 #include "LED.h"
 #include "USART.h"
 #include "switch.h"
-#include "SPI.h"
 #include "ADC.h"
 #include "hex_parser.h"
 #include "app.h"

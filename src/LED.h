@@ -3,8 +3,8 @@
 
 #include <avr/io.h>
 
-#define LED_CLR_D0 PORTB &= ~(_BV(PB5))
-#define LED_SET_D0 PORTB |= _BV(PB5)
+#define LED_SET_D0 PORTB &= ~(_BV(PB5))
+#define LED_CLR_D0 PORTB |= _BV(PB5)
 #define LED_REV_D0 PORTB ^= _BV(PB5)
 
 void LED_init(void);

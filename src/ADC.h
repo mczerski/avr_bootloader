@@ -4,6 +4,7 @@
 #include <stdint.h>
 
 void ADC_init(void);
-uint16_t getADCValue(int);
+uint16_t ADC_getValue(int);
+int ADC_convert2mV(uint16_t);
 
 #endif

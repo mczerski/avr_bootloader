@@ -19,8 +19,8 @@ void USART_puts(char *s) {
         USART_putc(*s);
         s++;
     }
-    USART_putc('\n');
     USART_putc('\r');
+    USART_putc('\n');
 }
 
 char USART_getc(void) {
@@ -35,9 +35,9 @@ int USART_gets(char *s, int max_len) {
     int read = 0;
     while (read < max_len - 1) {
         *s = USART_getc();
-        if (*s == '\n')
-            continue;
         if (*s == '\r')
+            continue;
+        if (*s == '\n')
             break;
         s++;
         read++;
