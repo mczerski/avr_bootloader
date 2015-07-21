@@ -38,19 +38,13 @@ static uint8_t convert_hex_8(const char * hex_line)
 
 static uint16_t convert_hex_16(const char * hex_line)
 {
-    return (convert_hex_4(hex_line[0]) << 12) |
-           (convert_hex_4(hex_line[1]) << 8) |
-           (convert_hex_4(hex_line[2]) << 4) |
-            convert_hex_4(hex_line[3]);
+    return (convert_hex_8(hex_line) << 8) |
+            convert_hex_8(hex_line + 2);
 }
 
 static int parse_record(const char * hex_line, size_t size, struct hex_record * record)
 {
     uint8_t checksum;
-    size_t record_pos; // Position inside record data fields.
-
-    if(size < 11)
-        return 1;
 
     /* Check format for line */
     if(hex_line[0] != ':') // Always start with colon.
@@ -78,7 +72,7 @@ static int parse_record(const char * hex_line, size_t size, struct hex_record * 
             return 1;
 
         /* Read data from record */
-        for(record_pos = 0; record_pos < record->length; record_pos++)
+        for(uint8_t record_pos = 0; record_pos < record->length; record_pos++)
         {
             record->data[record_pos] = convert_hex_8(hex_line + 9 + record_pos*2);
             checksum += record->data[record_pos];
@@ -109,15 +103,8 @@ void hex_parser_write_file(void)
 {
     hex_record_init(&record, hex_data, sizeof(hex_data));
     int error = 0;
-    size_t base_addr = 0;
-    size_t data_pos;
-    uint16_t word;
     size_t page_addr = 0;
-    int hex_size;
-
-    USART_putc(XON);
-    hex_size = USART_gets(hex_line, sizeof(hex_line));
-    USART_putc(XOFF);
+    int hex_size = USART_gets(hex_line, sizeof(hex_line));
 
     while( 1 )
     {
@@ -128,21 +115,19 @@ void hex_parser_write_file(void)
         {
             case 0x00 : // Data record
 
-                for(data_pos = 0; data_pos < record.length; data_pos+=2) {
-                    size_t byte_addr = (base_addr + record.offset + data_pos) & (SPM_PAGESIZE-1);
-                    word = record.data[data_pos] | (record.data[data_pos+1] << 8);
+                for(uint8_t data_pos = 0; data_pos < record.length; data_pos+=2) {
+                    size_t byte_addr = (record.offset + data_pos) & (SPM_PAGESIZE-1);
+                    uint16_t word = record.data[data_pos] | (record.data[data_pos+1] << 8);
                     boot_page_fill(byte_addr, word);
                     if (byte_addr == SPM_PAGESIZE-2) {
-                        page_addr = (base_addr + record.offset + data_pos) & 0xFFFFFF80;
+                        page_addr = (record.offset + data_pos) & 0xFFFFFF80;
                         write_page(page_addr);
                     }
                 }
-
                 break;
 
             case 0x02 : // Extended segment address record ?
-                base_addr = (record.data[0] << 8) | record.data[1];
-                base_addr <<= 4;
+                error = 1; // we don't have so much memory
                 break;
 
             case 0x03 : // Start segment address record ?
@@ -173,8 +158,6 @@ void hex_parser_write_file(void)
             USART_puts("KO");
             return;
         }
-        USART_putc(XON);
         USART_gets(hex_line, sizeof(hex_line));
-        USART_putc(XOFF);
     }
 }
